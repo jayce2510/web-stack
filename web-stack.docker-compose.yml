@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+
+  mariadb:
+    container_name: web-db
+    image: mariadb
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+    environment: # from file .env
+      MYSQL_ROOT_PASSWORD: 123456
+      #MYSQL_DATABASE: $MYSQL_DB
+      #MYSQL_USER: $MYSQL_USER
+      #MYSQL_PASSWORD: $MYSQL_PASS
+
+  php:
+    container_name: web-php
+    image: php:fpm
+    restart: always
+    volumes:
+      - ./web:/var/www/html/
+      - ./logs/php:/var/log/fpm-php.www.log
+      
+  nginx:
+    container_name: web-nginx
+    image: nginx
+    ports:
+      - 80:8888
+    restart: always
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./web:/var/www/html/
+      - ./logs/nginx:/var/log/nginx/
+
