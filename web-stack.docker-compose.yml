@@ -18,17 +18,14 @@ services:
       #MYSQL_PASSWORD: $MYSQL_PASS
       TZ: "Asia/Ho_Chi_Minh"
 
-  nginx:
-    container_name: web-nginx
-    image: nginx
-    ports:
-      - 80:80
+  phpmyadmin:
+    container_name: web-myadmin
+    image: phpmyadmin
     restart: always
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./web:/var/www/html/
-      - ./logs/nginx:/var/log/nginx/
+    ports:
+      - 8080:80
     environment:
+      PMA_ARBITRARY: 1
       TZ: "Asia/Ho_Chi_Minh"
 
   php-fpm:
@@ -41,4 +38,15 @@ services:
     environment:
       TZ: "Asia/Ho_Chi_Minh"
 
-
+  nginx:
+    container_name: web-nginx
+    image: nginx
+    ports:
+      - 80:8080
+    restart: always
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./web:/var/www/html/
+      - ./logs/nginx:/var/log/nginx/
+    environment:
+      TZ: "Asia/Ho_Chi_Minh"
