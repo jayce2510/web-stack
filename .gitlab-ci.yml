@@ -1,5 +1,0 @@
-test-job-1:
-     tags:
-      - first 
-     script: 
-      - echo Hello There
