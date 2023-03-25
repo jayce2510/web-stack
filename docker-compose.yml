@@ -6,7 +6,7 @@ services:
     container_name: mariadb-apiv2
     image: mariadb:10.6-focal
     ports:
-      - 3408:3306
+      - 3409:3306
     restart: always
     volumes:
       - ./apiv2-db:/var/lib/mysql
@@ -31,7 +31,7 @@ services:
       MAX_INPUT_VARS: 1500
       TZ: Asia/Ho_Chi_Minh
     ports:
-      - 9093:80
+      - 9094:80
 
   php-fpm-apiv2:
     container_name: php-fpm-apiv2
@@ -48,7 +48,7 @@ services:
     container_name: nginx-apiv2
     image: nginx:1.18.0
     ports:
-      - 8083:80
+      - 8084:80
     restart: always
     volumes:
       - /var/www/staging/apiv2-stg.vn.fitlg.asia:/var/www/staging/apiv2-stg.vn.fitlg.asia
