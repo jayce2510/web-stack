@@ -2,14 +2,14 @@ version: '3.3'
 
 services:
 
-  mariadb-gymcredit:
-    container_name: mariadb-gymcredit
+  mariadb-apiv2:
+    container_name: mariadb-apiv2
     image: mariadb:10.6-focal
     ports:
       - 3407:3306
     restart: always
     volumes:
-      - ./gymcredit-db:/var/lib/mysql
+      - ./apiv2-db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_PASS_ROOT
       MYSQL_DATABASE: $MYSQL_DB
@@ -17,8 +17,8 @@ services:
       MYSQL_PASSWORD: $MYSQL_PASS
       TZ: Asia/Ho_Chi_Minh
 
-  phpmyadmin-gymcredit:
-    container_name: phpmyadmin-gymcredit
+  phpmyadmin-apiv2:
+    container_name: phpmyadmin-apiv2
     image: phpmyadmin/phpmyadmin:latest
     restart: always
     environment:
@@ -33,25 +33,25 @@ services:
     ports:
       - 9092:80
 
-  php-fpm-gymcredit:
-    container_name: php-fpm-gymcredit
-    image: php-fpm:7.1
+  php-fpm-apiv2:
+    container_name: php-fpm-apiv2
+    image: php:7.4.3-fpm
     restart: always
     volumes:
-      - /var/www/staging/gymcredit-stg.vn.fitlg.asia:/var/www/staging/gymcredit-stg.vn.fitlg.asia
+      - /var/www/staging/apiv2-stg.vn.fitlg.asia:/var/www/staging/apiv2-stg.vn.fitlg.asia
       - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./logs/php:/var/log/fpm-php.www.log
     environment:
       TZ: Asia/Ho_Chi_Minh
 
-  nginx-gymcredit:
-    container_name: nginx-gymcredit
+  nginx-apiv2:
+    container_name: nginx-apiv2
     image: nginx:1.18.0
     ports:
       - 8082:80
     restart: always
     volumes:
-      - /var/www/staging/gymcredit-stg.vn.fitlg.asia:/var/www/staging/gymcredit-stg.vn.fitlg.asia
+      - /var/www/staging/apiv2-stg.vn.fitlg.asia:/var/www/staging/apiv2-stg.vn.fitlg.asia
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./logs/nginx:/var/log/nginx/
     environment:
