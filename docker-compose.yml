@@ -2,14 +2,16 @@ version: '3.3'
 
 services:
 
-  mariadb-vat-invoice:
-    container_name: mariadb-vat-invoice
-    image: mariadb:10.6-focal
+  mariadb-name:
+    container_name: mariadb-name
+    image: flgvn.azurecr.io/mariadb:10.6-focal
+    networks:
+      - name
     ports:
-      - 3410:3306
+      - 3406:3306
     restart: always
     volumes:
-      - ./vat-invoice-db:/var/lib/mysql
+      - ./name-db:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_PASS_ROOT
       MYSQL_DATABASE: $MYSQL_DB
@@ -17,9 +19,9 @@ services:
       MYSQL_PASSWORD: $MYSQL_PASS
       TZ: Asia/Ho_Chi_Minh
 
-  phpmyadmin-vat-invoice:
-    container_name: phpmyadmin-vat-invoice
-    image: phpmyadmin/phpmyadmin:latest
+  phpmyadmin-name:
+    container_name: phpmyadmin-name
+    image: flgvn.azurecr.io/phpmyadmin:5.2.1
     restart: always
     environment:
       PMA_HOST: mariadb
@@ -31,27 +33,27 @@ services:
       MAX_INPUT_VARS: 1500
       TZ: Asia/Ho_Chi_Minh
     ports:
-      - 9095:80
+      - 9091:80
 
-  php-fpm-vat-invoice:
-    container_name: php-fpm-vat-invoice
-    image: php:7.4.3-fpm
+  php-fpm-name:
+    container_name: php-fpm-name
+    image: flgvn.azurecr.io/php-fpm:7.1
     restart: always
     volumes:
-      - /var/www/staging/vat-invoice-stg.vn.fitlg.asia:/var/www/staging/vat-invoice-stg.vn.fitlg.asia
+      - /var/www/staging/name-stg.vn.fitlg.asia:/var/www/staging/name-stg.vn.fitlg.asia
       - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./logs/php:/var/log/fpm-php.www.log
     environment:
       TZ: Asia/Ho_Chi_Minh
 
-  nginx-vat-invoice:
-    container_name: nginx-vat-invoice
-    image: nginx:1.18.0
+  nginx-name:
+    container_name: nginx-name
+    image: flgvn.azurecr.io/nginx:1.18.0
     ports:
-      - 8085:80
+      - 8081:80
     restart: always
     volumes:
-      - /var/www/staging/vat-invoice-stg.vn.fitlg.asia:/var/www/staging/vat-invoice-stg.vn.fitlg.asia
+      - /var/www/staging/name-stg.vn.fitlg.asia:/var/www/staging/name-stg.vn.fitlg.asia
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./logs/nginx:/var/log/nginx/
     environment:
