@@ -5,8 +5,6 @@ services:
   mariadb-name:
     container_name: mariadb-name
     image: flgvn.azurecr.io/mariadb:10.6-focal
-    networks:
-      - name
     ports:
       - 3406:3306
     restart: always
